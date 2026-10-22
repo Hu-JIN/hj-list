@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Letters for Hu Jin</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a sort toggle, then one table (University | Department | Deadline | Letters due), grouped or flat. */
+:root{
+  --bg:#fbfbfa; --surface:#ffffff; --fg:#1c2421; --muted:#5d6864; --line:#e1e5e3;
+  --accent:#1f5f55; --chip:#e3efec; --chip-fg:#1f5f55; --chip2:#eef0f2; --chip2-fg:#4a5560;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121615; --surface:#1a201e; --fg:#e3e8e6; --muted:#9aa6a2; --line:#2b3330;
+  --accent:#7cc3b5; --chip:#1d322e; --chip-fg:#7cc3b5; --chip2:#252c2a; --chip2-fg:#b3bdb9; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#121615; --surface:#1a201e; --fg:#e3e8e6; --muted:#9aa6a2; --line:#2b3330;
+  --accent:#7cc3b5; --chip:#1d322e; --chip-fg:#7cc3b5; --chip2:#252c2a; --chip2-fg:#b3bdb9; color-scheme:dark }
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:14.5px;line-height:1.5}
+.wrap{max-width:860px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:16px}
+.lbl{font-size:13px;color:var(--muted)}
+.thnote{font-weight:400;text-transform:none;letter-spacing:0}
+.bar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:inherit;font-size:13px;border:0;background:transparent;color:var(--muted);padding:6px 12px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--chip);color:var(--chip-fg);font-weight:600}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+table{border-collapse:collapse;width:100%}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+tr.grp td{background:var(--bg);font-weight:600;font-size:13px;padding-top:14px}
+tr.grp .ct{color:var(--muted);font-weight:400;margin-left:6px}
+tbody tr:last-child td{border-bottom:0}
+td.inst{font-weight:500;width:34%}
+td.dl{white-space:nowrap;font-variant-numeric:tabular-nums;width:1%}
+td.dl.soft{color:var(--muted)}
+td.lt{white-space:nowrap;width:1%}
+td.lt-later,td.lt-unclear{color:var(--muted)}
+td.lt-yes{font-weight:500}
+a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
+a:hover,a:focus-visible{color:var(--accent);border-bottom-color:var(--accent);outline:none}
+.chip{display:inline-block;font-size:11px;font-weight:600;border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:1px;white-space:nowrap}
+.chip.i{background:var(--chip);color:var(--chip-fg)}
+.chip.o{background:var(--chip2);color:var(--chip2-fg)}
+@media (max-width:560px){th,td{padding:8px 10px}td.inst{width:auto}}
+footer{color:var(--muted);font-size:12.5px}
+</style>
+<style>body{margin:0}</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="bar">
+    <span class="lbl">Sort by</span>
+    <div class="seg" role="group" aria-label="Sort">
+      <button type="button" id="by-group" aria-pressed="true">Interfolio / other</button>
+      <button type="button" id="by-date" aria-pressed="false">Deadline</button>
+    </div>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>University</th><th>Department</th><th>Deadline</th><th>Letters due at deadline <span class="thnote">(best inferred; may be inaccurate)</span></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+  </div>
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const UPDATED="October 22, 2026";
+const JOBS=[{"inst": "Princeton University", "unit": "Ludwig Institute for Cancer Research", "url": "https://apply.interfolio.com/191852", "ifo": true, "lt": "Yes", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "Columbia University Irving Medical Center", "unit": "Department of Systems Biology", "url": "https://apply.interfolio.com/192256", "ifo": true, "lt": "Yes", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "Brown University", "unit": "Center for Computational Molecular Biology / Computer Science", "url": "https://apply.interfolio.com/189906", "ifo": true, "lt": "Yes", "dl": "ASAP", "key": "2026-10-15"}, {"inst": "Yale University", "unit": "Molecular Biophysics & Biochemistry", "url": "https://apply.interfolio.com/193444", "ifo": true, "lt": "Yes", "dl": "Oct 31", "key": "2026-10-31"}, {"inst": "Yale University", "unit": "Molecular, Cellular & Developmental Biology", "url": "https://apply.interfolio.com/192466", "ifo": true, "lt": "Yes", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "Yale University", "unit": "Yale Cancer Biology Institute", "url": "https://apply.interfolio.com/191231", "ifo": true, "lt": "Yes", "dl": "Nov 30", "key": "2026-11-30"}, {"inst": "Yale University", "unit": "Biomedical Informatics & Data Science", "url": "https://apply.interfolio.com/172319", "ifo": true, "lt": "Yes", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "Johns Hopkins University", "unit": "Department of Biology (Computational Biology)", "url": "https://apply.interfolio.com/194924", "ifo": true, "lt": "Yes", "dl": "Nov 8", "key": "2026-11-08"}, {"inst": "University of Michigan Medical School", "unit": "Department of Human Genetics", "url": "https://apply.interfolio.com/190644", "ifo": true, "lt": "Yes", "dl": "Nov 13", "key": "2026-11-13"}, {"inst": "New York University", "unit": "Department of Biology (Computational / AI)", "url": "https://apply.interfolio.com/195143", "ifo": true, "lt": "Yes", "dl": "Nov 15", "key": "2026-11-15"}, {"inst": "Salk Institute for Biological Studies", "unit": "Health, Resilience and Adaptation", "url": "https://www.nature.com/naturecareers/job/12865257/assistant-professor-in-health-resilience-and-adaptation-at-the-salk-institute/", "ifo": true, "lt": "Yes", "dl": "Nov 16", "key": "2026-11-16"}, {"inst": "University of Pennsylvania", "unit": "Cancer Biology / Basser Center for BRCA", "url": "https://careers.insidehighered.com/job/3530046/assistant-professor-in-the-basser-center-for-brca-in-partnership-with-the-department-of-cancer-/", "ifo": true, "lt": "Yes", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "UCLA", "unit": "Department of Physiology", "url": "https://recruit.apo.ucla.edu/JPF11279", "ifo": false, "lt": "Yes", "dl": "Nov 15", "key": "2026-11-15"}, {"inst": "UCLA", "unit": "Department of Biological Chemistry", "url": "https://recruit.apo.ucla.edu/JPF11308", "ifo": false, "lt": "Yes", "dl": "Nov 9", "key": "2026-11-09"}, {"inst": "UC Berkeley", "unit": "Center for Computational Biology", "url": "https://aprecruit.berkeley.edu/JPF05568", "ifo": false, "lt": "Yes", "dl": "Nov 18", "key": "2026-11-18"}, {"inst": "UCSF", "unit": "Institute for Human Genetics", "url": "https://aprecruit.ucsf.edu/JPF06052", "ifo": false, "lt": "Unclear", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "Duke University", "unit": "School of Medicine (Discovery AI Initiative)", "url": "https://academicjobsonline.org/ajo/jobs/32313", "ifo": false, "lt": "Yes", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "University of Chicago", "unit": "Biological Sciences Division cluster hire (Cancer Biology)", "url": "https://apply.interfolio.com/190755", "ifo": true, "lt": "Later", "dl": "ASAP", "key": "2026-09-30"}, {"inst": "University of Chicago", "unit": "Biological Sciences Division cluster hire (AI-enabled biology & medicine)", "url": "https://apply.interfolio.com/190757", "ifo": true, "lt": "Later", "dl": "ASAP", "key": "2026-09-30"}, {"inst": "University of Chicago", "unit": "Department of Human Genetics", "url": "https://apply.interfolio.com/192404", "ifo": true, "lt": "Later", "dl": "ASAP", "key": "2026-10-02"}, {"inst": "Princeton University", "unit": "Department of Molecular Biology", "url": "https://apply.interfolio.com/190686", "ifo": true, "lt": "Later", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "Princeton University", "unit": "Omenn-Darling Bioengineering Institute / Computer Science", "url": "https://apply.interfolio.com/191394", "ifo": true, "lt": "Later", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "University of Washington", "unit": "Department of Genome Sciences", "url": "https://apply.interfolio.com/194897", "ifo": true, "lt": "Later", "dl": "Dec 4", "key": "2026-12-04"}, {"inst": "Carnegie Mellon University", "unit": "Computational Biology Department", "url": "https://apply.interfolio.com/189576", "ifo": true, "lt": "Unclear", "dl": "TBD", "key": "9999-12-31"}, {"inst": "Yale University", "unit": "Center for Research on Aging (Pathology)", "url": "https://apply.interfolio.com/186720", "ifo": true, "lt": "Later", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "University of Tennessee, Knoxville", "unit": "Biochemistry & Cellular and Molecular Biology", "url": "https://apply.interfolio.com/192058", "ifo": true, "lt": "Later", "dl": "ASAP", "key": "2026-10-01"}, {"inst": "UC Irvine", "unit": "Department of Systems Biology", "url": "https://recruit.ap.uci.edu/JPF10377", "ifo": false, "lt": "Later", "dl": "Oct 31", "key": "2026-10-31"}, {"inst": "UC Davis", "unit": "Biochemistry & Molecular Medicine", "url": "https://recruit.ucdavis.edu/JPF07832", "ifo": false, "lt": "Later", "dl": "Oct 30", "key": "2026-10-30"}, {"inst": "UCSF", "unit": "Bioengineering & Therapeutic Sciences", "url": "https://aprecruit.ucsf.edu/JPF06211", "ifo": false, "lt": "Later", "dl": "Oct 30", "key": "2026-10-30"}, {"inst": "Stanford University", "unit": "Department of Biomedical Data Science", "url": "http://facultypositions.stanford.edu/cw/en-us/job/495026", "ifo": false, "lt": "Later", "dl": "Nov 9", "key": "2026-11-09"}, {"inst": "The Jackson Laboratory", "unit": "JAX Genomic Medicine", "url": "https://thejacksonlaboratory.wd503.myworkdayjobs.com/External_JAX/job/Farmington-Connecticut/Assistant--Associate-and-Full-Professor---Farmington--CT_JR006267", "ifo": false, "lt": "Later", "dl": "Nov 15", "key": "2026-11-15"}, {"inst": "University of Utah Health", "unit": "Department of Human Genetics", "url": "https://utah.peopleadmin.com/postings/208294", "ifo": false, "lt": "Later", "dl": "ASAP", "key": "2026-10-16"}, {"inst": "University of Utah / Huntsman Cancer Institute", "unit": "Department of Oncological Sciences", "url": "https://utah.peopleadmin.com/postings/209560", "ifo": false, "lt": "Later", "dl": "Nov 30", "key": "2026-11-30"}, {"inst": "University of Colorado Anschutz", "unit": "Department of Biomedical Informatics", "url": "https://cu.taleo.net/careersection/2/jobdetail.ftl?job=41057&lang=en", "ifo": false, "lt": "Later", "dl": "Dec 1", "key": "2026-12-01"}, {"inst": "Rutgers Cancer Institute", "unit": "Genomic Instability and Cancer Genetics Program", "url": "https://www.nature.com/naturecareers/job/12864707/genomic-instability-and-cancer-genetics-tenure-track-faculty-position/", "ifo": false, "lt": "Unclear", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "Albert Einstein College of Medicine", "unit": "Systems & Computational Biology / Montefiore Einstein Cancer Center", "url": "https://www.nature.com/naturecareers/job/12865562/tenure-track-faculty-in-systems-and-computational-biology/", "ifo": false, "lt": "Later", "dl": "TBD", "key": "9999-12-31"}, {"inst": "University of Maryland School of Medicine", "unit": "Institute for Genome Sciences / Greenebaum Cancer Center", "url": "https://jobs.chronicle.com/job/38003422/assistant-or-associate-professor-in-cancer-genomics/", "ifo": false, "lt": "Later", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "Georgia Institute of Technology", "unit": "School of Biological Sciences (Integrative Genomics)", "url": "https://careers.insidehighered.com/job/3554487/assistant-professor-in-computational-genetics/", "ifo": false, "lt": "Later", "dl": "Nov 1", "key": "2026-11-01"}, {"inst": "University of Alabama at Birmingham", "unit": "O'Neal Comprehensive Cancer Center", "url": "https://uab.peopleadmin.com/postings/27896", "ifo": false, "lt": "Later", "dl": "Nov 16", "key": "2026-11-16"}, {"inst": "UC Irvine", "unit": "Department of Biological Chemistry", "url": "https://recruit.ap.uci.edu/JPF10441", "ifo": false, "lt": "Unclear", "dl": "Nov 14", "key": "2026-11-14"}, {"inst": "Dana-Farber / Harvard Chan", "unit": "Data Science & Biostatistics", "url": "https://academicpositions.harvard.edu/postings/16717", "ifo": false, "lt": "Later", "dl": "Oct 31", "key": "2026-10-31"}, {"inst": "Icahn School of Medicine at Mount Sinai", "unit": "Genetics & Genomic Sciences", "url": "https://recruitment.icahnggs.info/positions/faculty-recruitment-2026", "ifo": false, "lt": "Unclear", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "Institute for Systems Biology", "unit": "Faculty search", "url": "https://isbscience.bamboohr.com/careers/71", "ifo": false, "lt": "Unclear", "dl": "Rolling", "key": "9999-12-30"}, {"inst": "MD Anderson Cancer Center", "unit": "Research faculty recruitment", "url": "https://www.mdanderson.org/about-md-anderson/careers/research-faculty-positions.html", "ifo": false, "lt": "Unclear", "dl": "Rolling", "key": "9999-12-30"}];
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const byDate=(a,b)=>a.key.localeCompare(b.key)||a.inst.localeCompare(b.inst);
+function row(j,chip){
+  const soft=(j.dl==="Rolling"||j.dl==="TBD")?" soft":"";
+  const unit=j.url?`<a href="${esc(j.url)}" target="_blank" rel="noopener">${esc(j.unit)}</a>`:esc(j.unit);
+  const c=chip?(j.ifo?'<span class="chip i">Interfolio</span>':'<span class="chip o">Other</span>'):"";
+  return `<tr><td class="inst">${esc(j.inst)}${c}</td><td>${unit}</td><td class="dl${soft}">${esc(j.dl)}</td><td class="lt lt-${j.lt.toLowerCase()}">${esc(j.lt)}</td></tr>`;
+}
+function render(mode){
+  const tb=document.getElementById("rows");
+  if(mode==="date"){
+    tb.innerHTML=[...JOBS].sort(byDate).map(j=>row(j,true)).join("");
+  }else{
+    const g=(f,t)=>{const js=JOBS.filter(f).sort(byDate);return `<tr class="grp"><td colspan="4">${t}<span class="ct">${js.length}</span></td></tr>`+js.map(j=>row(j,false)).join("");};
+    tb.innerHTML=g(j=>j.ifo,"Interfolio")+g(j=>!j.ifo,"Other systems");
+  }
+  document.getElementById("by-group").setAttribute("aria-pressed",mode!=="date");
+  document.getElementById("by-date").setAttribute("aria-pressed",mode==="date");
+}
+document.getElementById("by-group").onclick=()=>render("group");
+document.getElementById("by-date").onclick=()=>render("date");
+render("group");
+document.getElementById("foot").textContent=`${JOBS.length} searches · Last updated ${UPDATED}`;
+</script>
+
+</body>
+</html>
